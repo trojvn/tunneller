@@ -1,3 +1,4 @@
+import time
 from pathlib import Path
 from subprocess import PIPE, Popen, run
 from typing import Optional
@@ -35,6 +36,7 @@ class Kitty:
     def start(self):
         """Запускаем инстанс, предварительно завершая прошлый процесс с тем же названием"""
         run(f"taskkill /f /im {self.exe_path.name}", stdout=PIPE, stderr=PIPE)
+        time.sleep(1)
         self.__process = Popen(
             f"{self.exe_path} -pw {self.pswd} -P {self.port} {ARGS}",
             cwd=self.exe_path.parent,
