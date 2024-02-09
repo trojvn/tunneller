@@ -67,9 +67,8 @@ class PrepareKitty:
         replace_str += [f"4L{p.port}={p.name}%3A{p.port}," for p in self.lports]
         replace_str = replace_str[:-1]
         replace_str += "\\"
-        data = DEFAULT_SESSION_TEMPLATE.replace(r"PortForwardings\\", replace_str)
         with self.default_settings.open("w", encoding="utf-8") as f:
-            f.write(data)
+            f.write(DEFAULT_SESSION_TEMPLATE.replace(r"PortForwardings\\", replace_str))
 
     def __create(self):
         """Точка входа"""
