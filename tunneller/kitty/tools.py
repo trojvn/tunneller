@@ -3,7 +3,7 @@ from shutil import rmtree, copyfile
 from subprocess import run, PIPE
 from typing import NamedTuple
 
-from tunneller.kitty.default import DEFAULT_SESSION_TEMPLATE
+from .default import DEFAULT_SESSION_TEMPLATE
 
 
 class LPort(NamedTuple):
