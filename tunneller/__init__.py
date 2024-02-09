@@ -1,2 +1,2 @@
-from .kitty.main import Kitty
-from .kitty.tools import PrepareKitty
+from tunneller.kitty.main import Kitty
+from tunneller.kitty.tools import PrepareKitty
