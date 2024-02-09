@@ -1,5 +1,6 @@
 from pathlib import Path
 from shutil import rmtree, copyfile
+from subprocess import run, PIPE
 from typing import NamedTuple
 
 from .default import DEFAULT_SESSION_TEMPLATE
@@ -13,9 +14,9 @@ class LPort(NamedTuple):
 class PrepareKitty:
     """Подготавливает Kitty директорию для запуска туннеля с нужными портами"""
 
-    def __init__(self, new_name: str, rports: list[int], lports: list[LPort]):
+    def __init__(self, name: str, rports: list[int], lports: list[LPort]):
         self.__exe_path = Path("./kitty.exe")
-        self.__new_name = new_name
+        self.__name = name
         self.__rports = rports
         self.__lports = lports
         if not self.exe_path.exists():
@@ -35,31 +36,32 @@ class PrepareKitty:
         return self.__exe_path
 
     @property
-    def new_name(self) -> str:
-        return self.__new_name  # m_kitty
+    def name(self) -> str:
+        return self.__name  # m_kitty
 
     @property
-    def new_name_dir(self) -> Path:
-        return Path(self.new_name)
+    def name_dir(self) -> Path:
+        return Path(self.name)
 
     @property
-    def new_name_sessions_dir(self) -> Path:
-        return self.new_name_dir / "Sessions"
+    def name_sessions_dir(self) -> Path:
+        return self.name_dir / "Sessions"
 
     @property
-    def new_name_exe(self) -> Path:
-        return self.new_name_dir / f"{self.new_name}.exe"
+    def name_exe(self) -> Path:
+        return self.name_dir / f"{self.name}.exe"
 
     @property
     def default_settings(self) -> Path:
-        return self.new_name_dir / "Default%20Settings"
+        return self.name_dir / "Default%20Settings"
 
-    def __prepare_new_name_dir(self):
-        rmtree(self.new_name_dir, ignore_errors=True)
-        self.new_name_dir.mkdir(exist_ok=True)
-        self.new_name_sessions_dir.mkdir(exist_ok=True)
+    def __prepare_name_dir(self):
+        run(f"taskkill /f /im {self.name}.exe", stdout=PIPE, stderr=PIPE)
+        rmtree(self.name_dir, ignore_errors=True)
+        self.name_dir.mkdir(exist_ok=True)
+        self.name_sessions_dir.mkdir(exist_ok=True)
 
-    def __prepare_default_settings_file(self):
+    def __prepare_default_settings(self):
         replace_str = "PortForwardings\\"
         replace_str += [f"4R{p}=127.0.0.1%3A{p}," for p in self.rports]
         replace_str += [f"4L{p.port}={p.name}%3A{p.port}," for p in self.lports]
@@ -71,6 +73,6 @@ class PrepareKitty:
 
     def __create(self):
         """Точка входа"""
-        self.__prepare_new_name_dir()
-        copyfile(self.exe_path, self.new_name_exe)
-        self.__prepare_default_settings_file()
+        self.__prepare_name_dir()
+        copyfile(self.exe_path, self.name_exe)
+        self.__prepare_default_settings()
