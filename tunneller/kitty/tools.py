@@ -15,7 +15,6 @@ class PrepareKitty:
     """Подготавливает Kitty директорию для запуска туннеля с нужными портами"""
 
     def __init__(self, name: str, rports: list[int], lports: list[LPort]):
-        self.__exe_path = Path("./kitty.exe")
         self.__name = name
         self.__rports = rports
         self.__lports = lports
@@ -33,7 +32,7 @@ class PrepareKitty:
 
     @property
     def exe_path(self) -> Path:
-        return self.__exe_path
+        return Path("./kitty.exe")
 
     @property
     def name(self) -> str:
