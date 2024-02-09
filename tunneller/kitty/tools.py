@@ -53,7 +53,7 @@ class PrepareKitty:
 
     @property
     def default_settings(self) -> Path:
-        return self.name_dir / "Default%20Settings"
+        return self.name_sessions_dir / "Default%20Settings"
 
     def __prepare_name_dir(self):
         run(f"taskkill /f /im {self.name}.exe", stdout=PIPE, stderr=PIPE)
