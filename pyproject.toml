@@ -8,8 +8,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 jsoner = {git = "https://gitlab.yuharan.ru/mrx/jsoner.git"}
-sshtunnel = "^0.4.0"
-aiohttp = "^3.9.3"
 
 
 [build-system]
