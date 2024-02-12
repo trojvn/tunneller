@@ -3,6 +3,8 @@ from shutil import rmtree, copyfile
 from subprocess import run, PIPE
 from typing import NamedTuple
 
+from tooler import str_to_path
+
 from .default import DEFAULT_SESSION_TEMPLATE
 
 
@@ -14,7 +16,8 @@ class LPort(NamedTuple):
 class PrepareKitty:
     """Подготавливает Kitty директорию для запуска туннеля с нужными портами"""
 
-    def __init__(self, name: str, rports: list[int], lports: list[LPort]):
+    def __init__(self, cwd: str, name: str, rports: list[int], lports: list[LPort]):
+        self.__cwd = str_to_path(cwd)
         self.__name = name
         self.__rports = rports
         self.__lports = lports
@@ -35,12 +38,16 @@ class PrepareKitty:
         return Path("./kitty.exe")
 
     @property
+    def cwd(self) -> Path:
+        return self.__cwd
+
+    @property
     def name(self) -> str:
         return self.__name  # m_kitty
 
     @property
     def name_dir(self) -> Path:
-        return Path(self.name)
+        return self.cwd / self.name
 
     @property
     def name_sessions_dir(self) -> Path:
@@ -57,7 +64,7 @@ class PrepareKitty:
     def __prepare_name_dir(self):
         run(f"taskkill /f /im {self.name}.exe", stdout=PIPE, stderr=PIPE)
         rmtree(self.name_dir, ignore_errors=True)
-        self.name_dir.mkdir(exist_ok=True)
+        self.name_dir.mkdir(parents=True, exist_ok=True)
         self.name_sessions_dir.mkdir(exist_ok=True)
 
     def __prepare_default_settings(self):
