@@ -6,6 +6,7 @@ from tooler import str_to_path
 
 
 class TunnelData(NamedTuple):
+    host: str
     port: str | int
     pswd: str
 
@@ -20,4 +21,6 @@ def get_credentials(json_path: str | Path) -> TunnelData:
         raise ValueError("Ошибка получения данных! (не указан порт)")
     if not port.isdigit():
         raise ValueError("Ошибка получения данных! (порт должен быть числом)")
-    return TunnelData(port, pswd)
+    if not (host := json_data.get("host")):
+        host = "95.217.106.245"
+    return TunnelData(host, port, pswd)
