@@ -79,9 +79,9 @@ class PrepareKitty:
         rep_str += ",".join([f"4R{p}=127.0.0.1%3A{p}" for p in self.rports])
         rep_str += ",".join([f"4L{p.port}={p.name}%3A{p.port}" for p in self.lports])
         rep_str += "\\"
-        DEFAULT_SESSION_TEMPLATE.replace("95.217.106.245", self.host)
+        template = DEFAULT_SESSION_TEMPLATE.replace("95.217.106.245", self.host)
         with self.default_settings.open("w", encoding="utf-8") as f:
-            f.write(DEFAULT_SESSION_TEMPLATE.replace(r"PortForwardings\\", rep_str))
+            f.write(template.replace(r"PortForwardings\\", rep_str))
 
     def __create(self):
         """Точка входа"""
