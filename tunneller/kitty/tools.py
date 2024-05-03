@@ -3,7 +3,7 @@ from shutil import rmtree, copyfile
 from subprocess import run, PIPE
 from typing import NamedTuple
 
-from tooler import str_to_path
+from tooler import Process, str_to_path
 
 from .default import DEFAULT_SESSION_TEMPLATE
 
@@ -75,7 +75,7 @@ class PrepareKitty:
         return self.name_sessions_dir / "Default%20Settings"
 
     def __prepare_name_dir(self):
-        run(f"taskkill /f /im {self.name}.exe", stdout=PIPE, stderr=PIPE)
+        Process(f"{self.name}.exe").kill_by_name()
         rmtree(self.name_dir, ignore_errors=True)
         self.name_dir.mkdir(parents=True, exist_ok=True)
         self.name_sessions_dir.mkdir(exist_ok=True)

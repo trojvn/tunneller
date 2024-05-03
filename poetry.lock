@@ -32,7 +32,7 @@ resolved_reference = "585ddf83a9dd3f7b614a6426e5064e4f44fd3728"
 
 [[package]]
 name = "tooler"
-version = "0.4.0"
+version = "0.5.0"
 description = ""
 optional = false
 python-versions = "^3.11"
@@ -43,7 +43,7 @@ develop = false
 type = "git"
 url = "https://gitlab.yuharan.ru/mrx/tooler.git"
 reference = "HEAD"
-resolved_reference = "18a5a3c5895102b4696704f4a6a39848cb8b8981"
+resolved_reference = "17bdefd2e5345ba72a3a645d270fb2e29930f621"
 
 [metadata]
 lock-version = "2.0"

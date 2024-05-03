@@ -1,9 +1,9 @@
 import time
 from pathlib import Path
-from subprocess import PIPE, Popen, run
+from subprocess import PIPE, Popen
 from typing import Optional
 
-from tooler import str_to_path
+from tooler import Process, str_to_path
 
 ARGS = '-auto-store-sshkey -load "Default Settings"'
 
@@ -35,7 +35,7 @@ class Kitty:
 
     def start(self):
         """Запускаем инстанс, предварительно завершая прошлый процесс с тем же названием"""
-        run(f"taskkill /f /im {self.exe_path.name}", stdout=PIPE, stderr=PIPE)
+        Process(self.exe_path.name).kill_by_name()
         time.sleep(1)
         cmd = f"{self.exe_path} -pw {self.pswd} -P {self.port} {ARGS}"
         self.__process = Popen(cmd, cwd=self.exe_path.parent, stdout=PIPE, stderr=PIPE)
@@ -46,7 +46,7 @@ class Kitty:
             return
         self.process.terminate()
         self.process.kill()
-        run(f"taskkill /f /im {self.exe_path.name}", stdout=PIPE, stderr=PIPE)
+        Process(self.exe_path.name).kill_by_name()
         self.__process = None
 
     def __enter__(self):
