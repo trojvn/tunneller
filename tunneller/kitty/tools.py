@@ -84,6 +84,8 @@ class PrepareKitty:
         rep_str = "PortForwardings\\"
         rep_str += ",".join([f"4R{p}=127.0.0.1%3A{p}" for p in self.rports])
         lports = [f"4L{p.client_port}={p.name}%3A{p.server_port}" for p in self.lports]
+        if lports:
+            rep_str += ","
         rep_str += ",".join(lports)
         rep_str += "\\"
         template = DEFAULT_SESSION_TEMPLATE.replace("95.217.106.245", self.host)
