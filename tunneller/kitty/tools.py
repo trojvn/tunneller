@@ -10,7 +10,8 @@ from .default import DEFAULT_SESSION_TEMPLATE
 
 class LPort(NamedTuple):
     name: str
-    port: int
+    server_port: int
+    client_port: int
 
 
 class PrepareKitty:
@@ -77,7 +78,8 @@ class PrepareKitty:
     def __prepare_default_settings(self):
         rep_str = "PortForwardings\\"
         rep_str += ",".join([f"4R{p}=127.0.0.1%3A{p}" for p in self.rports])
-        rep_str += ",".join([f"4L{p.port}={p.name}%3A{p.port}" for p in self.lports])
+        lports = [f"4L{p.client_port}={p.name}%3A{p.server_port}" for p in self.lports]
+        rep_str += ",".join(lports)
         rep_str += "\\"
         template = DEFAULT_SESSION_TEMPLATE.replace("95.217.106.245", self.host)
         with self.default_settings.open("w", encoding="utf-8") as f:
