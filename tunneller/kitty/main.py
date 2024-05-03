@@ -36,7 +36,8 @@ class Kitty:
     def start(self):
         """Запускаем инстанс, предварительно завершая прошлый процесс с тем же названием"""
         Process(self.exe_path.name).kill_by_name()
-        time.sleep(1)
+        if not self.exe_path.is_file():
+            raise ValueError(f"Ошибка запуска туннеля! Не найден {self.exe_path.name}")
         cmd = f"{self.exe_path} -pw {self.pswd} -P {self.port} {ARGS}"
         self.__process = Popen(cmd, cwd=self.exe_path.parent, stdout=PIPE, stderr=PIPE)
 
