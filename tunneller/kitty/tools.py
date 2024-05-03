@@ -18,7 +18,12 @@ class PrepareKitty:
     """Подготавливает Kitty директорию для запуска туннеля с нужными портами"""
 
     def __init__(
-        self, host: str, cwd: str, name: str, rports: list[int], lports: list[LPort]
+        self,
+        host: str,
+        cwd: str,
+        name: str,
+        rports: list[int],
+        lports: list[LPort],
     ):
         self.__host = host
         self.__cwd = str_to_path(cwd)
