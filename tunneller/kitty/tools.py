@@ -1,7 +1,7 @@
 from pathlib import Path
 from shutil import rmtree, copyfile
-from subprocess import run, PIPE
 from typing import NamedTuple
+import contextlib
 
 from tooler import Process, str_to_path
 
@@ -95,5 +95,6 @@ class PrepareKitty:
     def __create(self):
         """Точка входа"""
         self.__prepare_name_dir()
-        copyfile(self.exe_path, self.name_exe)
+        with contextlib.suppress(Exception):
+            copyfile(self.exe_path, self.name_exe)
         self.__prepare_default_settings()
