@@ -37,12 +37,8 @@ class Kitty:
         """Запускаем инстанс, предварительно завершая прошлый процесс с тем же названием"""
         run(f"taskkill /f /im {self.exe_path.name}", stdout=PIPE, stderr=PIPE)
         time.sleep(1)
-        self.__process = Popen(
-            f"{self.exe_path} -pw {self.pswd} -P {self.port} {ARGS}",
-            cwd=self.exe_path.parent,
-            stdout=PIPE,
-            stderr=PIPE,
-        )
+        cmd = f"{self.exe_path} -pw {self.pswd} -P {self.port} {ARGS}"
+        self.__process = Popen(cmd, cwd=self.exe_path.parent, stdout=PIPE, stderr=PIPE)
 
     def stop(self):
         """Остановка"""
@@ -50,6 +46,7 @@ class Kitty:
             return
         self.process.terminate()
         self.process.kill()
+        run(f"taskkill /f /im {self.exe_path.name}", stdout=PIPE, stderr=PIPE)
         self.__process = None
 
     def __enter__(self):
