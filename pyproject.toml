@@ -7,8 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-jsoner = {git = "https://gitlab.yuharan.ru/mrx/jsoner.git"}
-tooler = {git = "https://gitlab.yuharan.ru/mrx/tooler.git"}
+jsoner = {git = "https://github.com/trojvn/jsoner.git"}
+tooler = {git = "https://github.com/trojvn/tooler.git"}
 
 
 [build-system]
