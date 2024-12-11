@@ -1,17 +1,12 @@
 from pathlib import Path
 from shutil import rmtree, copyfile
-from typing import NamedTuple
 import contextlib
 
-from tooler import Process, str_to_path
+from tooler import Process
+
+from ..models import LPort
 
 from .default import DEFAULT_SESSION_TEMPLATE
-
-
-class LPort(NamedTuple):
-    name: str
-    server_port: int
-    client_port: int
 
 
 class PrepareKitty:
@@ -26,7 +21,7 @@ class PrepareKitty:
         lports: list[LPort],
     ):
         self.__host = host
-        self.__cwd = str_to_path(cwd)
+        self.__cwd = Path(cwd)
         self.__name = name
         self.__rports = rports
         self.__lports = lports
@@ -88,7 +83,7 @@ class PrepareKitty:
             rep_str += ","
         rep_str += ",".join(lports)
         rep_str += "\\"
-        template = DEFAULT_SESSION_TEMPLATE.replace("95.217.106.245", self.host)
+        template = DEFAULT_SESSION_TEMPLATE.replace("65.109.64.76", self.host)
         with self.default_settings.open("w", encoding="utf-8") as f:
             f.write(template.replace(r"PortForwardings\\", rep_str))
 

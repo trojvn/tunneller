@@ -1,5 +1,5 @@
 DEFAULT_SESSION_TEMPLATE = r"""Present\1\
-HostName\95.217.106.245\
+HostName\65.109.64.76\
 LogFileName\kitty.log\
 LogType\0\
 LogFileClash\-1\

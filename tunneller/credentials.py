@@ -21,5 +21,5 @@ def get_credentials(json_path: str | Path) -> TunnelData:
     if not port.isdigit():
         raise ValueError("Ошибка получения данных! (порт должен быть числом)")
     if not (host := json_data.get("host")):
-        host = "95.217.106.245"
+        host = "65.109.64.76"
     return TunnelData(host, port, pswd)
